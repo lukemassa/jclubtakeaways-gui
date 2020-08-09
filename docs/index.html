@@ -181,28 +181,39 @@ function will_occur(date) {
 }
 function submit_takeaway(name, thisdate, takeaway, callback) {
     
-    data = {
-        "range" : "Sheet1!A:C",
-        "values" : [[thisdate,name,takeaway]]
-    }
-    url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/Sheet1!A:C:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
     $.ajax({
-        type: 'POST',
-        url: url,
-        data: JSON.stringify(data),
-        success: function(data, res, xhr) { 
-            var status = xhr.status;
-            if (status === 200) {
-                callback(true);
-            } else {
-                callback(false, "Non-200 from google API: " + JSON.stringify(data));
-            }
-            },
-        error: function(jqXHR, data) {
-            callback(false, "AJAX call failed: " + JSON.stringify(jqXHR));
-        },
-        contentType: "application/json",
-        dataType: 'json'
+      dataType: 'json',
+      url: "https://jclubtakeaways-api.herokuapp.com/token",
+      success: function( data ) {
+          if (data.error) {
+             alert("ERROR: " + data.error)
+             return
+          }
+          var oauthtoken = data.token;
+          data = {
+              "range" : "Sheet1!A:C",
+              "values" : [[thisdate,name,takeaway]]
+          }
+          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/Sheet1!A:C:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
+          $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(data),
+                success: function(data, res, xhr) { 
+                    var status = xhr.status;
+                    if (status === 200) {
+                        callback(true);
+                    } else {
+                        callback(false, "Non-200 from google API: " + JSON.stringify(data));
+                    }
+                    },
+                error: function(jqXHR, data) {
+                    callback(false, "AJAX call failed: " + JSON.stringify(jqXHR));
+                },
+                contentType: "application/json",
+                dataType: 'json'
+          });
+       }
     });
 }
 
