@@ -188,7 +188,7 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
     
     $.ajax({
       dataType: 'json',
-      url: "https://jclubtakeaways-api.herokuapp.com/token",
+      url: "https://jclubtakeaways-api-v2.herokuapp.com/token",
       success: function( data ) {
           if (data.error) {
              alert("ERROR: " + data.error)

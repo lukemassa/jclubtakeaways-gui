@@ -96,7 +96,6 @@ $(document).ready(function() {
             if (JSON.stringify(e.cellsArray)==JSON.stringify(e.labels))
                 return "";
             var data = e.cellsArray;
-            console.log(data);
             //Only use this date
             if (thisdate !== data[0])
                 return "";
@@ -224,7 +223,7 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
     
     $.ajax({
       dataType: 'json',
-      url: "https://jclubtakeaways-api.herokuapp.com/token",
+      url: "https://jclubtakeaways-api-v2.herokuapp.com/token",
       success: function( data ) {
           if (data.error) {
              alert("ERROR: " + data.error)
