@@ -30,6 +30,12 @@ function run_server() {
 function get_hash(){
     echo $(find src -type f -name '*.html' -exec cat '{}' \; | md5sum | awk '{print $1}')
 }
+if ! which j2 &>/dev/null
+then
+    echo "Must install j2 (https://github.com/kolypto/j2cli)"
+    exit 1
+fi
+
 
 trap finish EXIT
 current_hash="$(get_hash)"
