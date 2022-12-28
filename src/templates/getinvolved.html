@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block pageheader %}
+    <h2 id="header">Get involved!
+    </h2>
+    {% endblock %}
+
+{% block pagebody %}
+
+<ul id="getinvolvedtabs" class="nav nav-pills" role="tablist">
+    <li role="presentation" class="active"><a href="#" aria-controls="getinvolved-attend">Attend a Talk</a></li>
+    <li role="presentation"><a href="#" aria-controls="getinvolved-attend">Join the Mailing List</a></li>
+    <li role="presentation"><a href="#">Signup for a talk</a></li>
+    <li role="presentation"><a href="#">Signup to host</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" data-toggle="pill" id="getinvolved-attend">Info about attending</div>
+    <div role="tabpanel" class="tab-pane" data-toggle="pill" id="getinvolved-mailing">How to join the mailing list</div>
+
+  </div>
+
+
+<script>
+  $('#getinvolvedtabs a').click(function (e) {
+ // e.preventDefault()
+ // $(this).tab('show')
+})
+</script>
+{% endblock %}
