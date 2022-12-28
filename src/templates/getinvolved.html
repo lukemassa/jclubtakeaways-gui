@@ -1,30 +1,66 @@
 {% extends "base.html" %}
 
-{% block pageheader %}
-    <h2 id="header">Get involved!
-    </h2>
-    {% endblock %}
 
 {% block pagebody %}
 
-<ul id="getinvolvedtabs" class="nav nav-pills" role="tablist">
-    <li role="presentation" class="active"><a href="#" aria-controls="getinvolved-attend">Attend a Talk</a></li>
-    <li role="presentation"><a href="#" aria-controls="getinvolved-attend">Join the Mailing List</a></li>
-    <li role="presentation"><a href="#">Signup for a talk</a></li>
-    <li role="presentation"><a href="#">Signup to host</a></li>
+<div>
+
+  <!-- Nav tabs -->
+  <ul id="getinvolved" class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#attend" aria-controls="attend" role="tab" data-toggle="tab">Attend a talk</a></li>
+    <li role="presentation"><a href="#mailing" aria-controls="mailing" role="tab" data-toggle="tab">Join the mailing list</a></li>
+    <li role="presentation"><a href="#talk" aria-controls="talk" role="tab" data-toggle="tab">Give a talk</a></li>
+    <li role="presentation"><a href="#host" aria-controls="host" role="tab" data-toggle="tab">Host a talk</a></li>
   </ul>
 
+  <!-- tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" data-toggle="pill" id="getinvolved-attend">Info about attending</div>
-    <div role="tabpanel" class="tab-pane" data-toggle="pill" id="getinvolved-mailing">How to join the mailing list</div>
-
+    <div role="tabpanel" class="tab-pane" id="attend">
+      <p>How to attend</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="mailing">
+      <p>Getting on the mailing list</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="talk">
+      <p>Signup to give a talk</p>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="host">
+      <p>Signup to host</p>
+      </div>
   </div>
 
-
+</div>
 <script>
-  $('#getinvolvedtabs a').click(function (e) {
- // e.preventDefault()
- // $(this).tab('show')
+const validTabs = new RegExp('^#(attend|mailing|talk|host)$');
+
+function gotoTab(hash) { 
+  $('#getinvolved a[href="' + hash + '"]').tab('show')
+}
+
+
+
+$('#getinvolved a').click(function (e) {
+  
+  var newHash = $(this).attr("href")
+  window.location.hash = newHash
 })
+
+$(window).on('load', function() {
+  if(window.location.hash) {
+    var hash = window.location.hash
+    if (validTabs.test(hash)) {
+      gotoTab(hash)
+    } else {
+      console.log("ERROR: invalid hash "+ hash)
+      gotoTab("#attend")
+    }
+    
+    // Select tab by name
+  } else {
+    gotoTab("#attend")
+  }
+})
+
 </script>
+
 {% endblock %}
