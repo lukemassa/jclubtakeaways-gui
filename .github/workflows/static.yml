@@ -30,8 +30,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: apt-get install -y python3-pip
-      - run: pip3 install j2cli
+      - uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            j2cli
       - run: make
       - name: Setup Pages
         uses: actions/configure-pages@v2
