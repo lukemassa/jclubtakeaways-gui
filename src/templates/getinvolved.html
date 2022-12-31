@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+
+{% block pagebody %}
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul id="getinvolved" class="nav nav-tabs" role="tablist">
+    <li role="presentation"><a href="#attend" aria-controls="attend" role="tab" data-toggle="tab">Attend a talk</a></li>
+    <li role="presentation"><a href="#mailing" aria-controls="mailing" role="tab" data-toggle="tab">Join the mailing list</a></li>
+    <li role="presentation"><a href="#talk" aria-controls="talk" role="tab" data-toggle="tab">Give a talk</a></li>
+    <li role="presentation"><a href="#host" aria-controls="host" role="tab" data-toggle="tab">Host a talk</a></li>
+  </ul>
+
+  <!-- tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane" id="attend">
+      <h3>So, these talks… what are they like?</h3>
+
+      <p>The doors open for Jclub at 7:30pm ET. It’s a time to mix and mingle, chat about previous Jclubs, or share a cool thing you learned about this week.</p>
+
+      <p>Talks begin promptly at 8pm ET. A presenter is introduced, factually or non-factually, by an attendee, and the introducer is also introduced (again, factually or not) by another attendee.</p> 
+
+      <p>The presenter has the floor until 10pm ET. Talks tend to range in length from 45 minutes to 2 hours, and how they’re shared with the group definitely ranges depending on the speaker and the topic. You can present using a slide deck or speak extemporaneously. You can do demos, show example videos, or bring visual or tactical aids. There’s no one way to do a Jclub talk, so approach it as you like to prepare and present information, and in a way that’ll be impactful for what you want to share with the group.</p> 
+
+      <p>Throughout the talk, attendees are encouraged to ask questions as the presentation progresses to engage directly with the material. Virtual attendees make liberal use of the chat as a sidechannel for commentary and questions.</p>
+
+      <p>As the presenter wraps up, there’s usually some debrief time for everyone to reflect upon what they learned, and everyone is encouraged to submit their takeaways to the Jclub website, <a href="#submit">jclubtakeaways.com</a>.
+
+      <h3>How to attend</h3>
+      
+      <p>In-person Jclub attendance is limited by the discretion of the hosts. A signup sheet will be distributed as part of the talk details for local attendees to indicate that they'll be joining in person.</p>
+      
+      <p>The virtual living room of Jclub is always open to all. You’re invited to join us anytime you’re available. Sign up for the <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3Yoq3xsbC_hM793cpYp0BP2oA1Tn_HKbRjyP556yqz8_yEw/viewform">Jclub mailing list</a> to hear about upcoming talks.</p> 
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="mailing">
+      <h3>Getting on the mailing list</h3>
+      
+      <p>The best way to keep up with Jclub is with the Jclub mailing list, sent roughly on a weekly cadence, to inform members of upcoming talks. We definitely won’t spam you or sell your email address. <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3Yoq3xsbC_hM793cpYp0BP2oA1Tn_HKbRjyP556yqz8_yEw/viewform">Join the Jclub mailing list</a>.</p> 
+
+
+
+    </div>
+    <div role="tabpanel" class="tab-pane" id="talk">
+      <h3>Present at Jclub</h3>
+      
+      <p>The longest running part of Jclub, the thing that started it all, is informal presentations given by enthusiastic presenters. This could be you! </p>
+
+      <p>At the core of every talk is a presenter with passion and an interest in the topic they’re sharing about. You don’t need to be an expert to give a talk, and you don’t have to prepare for months to present: you just need to be excited to share, and to get other people excited about the topic, too.</p>
+
+      <p>We love first-time and long-time presenters on all kinds of topics. We try to keep the variety of talks and people presenting varied throughout the year, so <a href="#weeks">take a look at past talks to see what’s been shared recently</a> and <a href="https://docs.google.com/forms/d/e/1FAIpQLSdREc-5QFKXw0WbadPz785LzOr8mJnTQPQkH89DOi-ZMyc7Fw/viewform">share your topic with us</a> to get on the schedule. Luke and Ma’ayan will reach out to request a short description of your talk and add you to the calendar!
+
+      
+    </div>
+    <div role="tabpanel" class="tab-pane" id="host">
+      <h3>Sign up to host Jclub</h3>
+      <p>Starting in 2023, local Jclubbers will have the option to gather in person groups to attend hybrid Jclubs. A local speaker that opts to present in-person to a hybrid audience may host in their home, or be hosted by a Boston-area Jclub member.</p>
+
+      <p>Interested in hosting a Jclub gathering? <a href="https://docs.google.com/forms/d/1vo3dXfo6A9Yp5vfZaCRU6VYLw2rMbDUAOlFV3-ewmpg/viewform">Let us know</a>!
+
+       <h3> Tips for hosting IRL Jclub</h3>
+         
+    <ul>
+      <li>Your house, your rules: you get to decide how many people your house can hold, and if there are health considerations you’d like your guests to know about. Luke and Ma’ayan will distribute a signup list ahead of the talk, and we’ll reserve up to two “comp tickets” for you to invite any friends not familiar with Jclub to join us!
+      <li>Jclub attendees will be in your home from 7:30pm-10:00pm ET, we will aim for everyone to be out the door 10:15pm ET. A Jclub regular (usually Luke or Ma'ayan) will arrive at 7:30pm ETto help you greet guests and set up tech (mic and a power strip). Talks begins at 8pm ET.
+      <li>You are not required to supply food or beverages, but feel free if you wish to.
+      <li>All attendees, in person and virtual, must be miced if they choose to speak.
+      <li>All attendees will be required to bring laptops so have your wifi password handy for everyone.
+</ul>
+
+
+      </div>
+  </div>
+
+</div>
+<script>
+const validTabs = new RegExp('^#(attend|mailing|talk|host)$');
+
+function gotoTab(hash) { 
+  $('#getinvolved a[href="' + hash + '"]').tab('show')
+}
+
+
+
+$('#getinvolved a').click(function (e) {
+  
+  var newHash = $(this).attr("href")
+  window.location.hash = newHash
+})
+
+$(window).on('load', function() {
+  if(window.location.hash) {
+    var hash = window.location.hash
+    if (validTabs.test(hash)) {
+      gotoTab(hash)
+    } else {
+      console.log("ERROR: invalid hash "+ hash)
+      gotoTab("#attend")
+    }
+    
+    // Select tab by name
+  } else {
+    gotoTab("#attend")
+  }
+})
+
+</script>
+
+{% endblock %}
