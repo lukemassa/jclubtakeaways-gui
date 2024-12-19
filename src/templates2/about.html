@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
+
+
+<title>JClub Takeaways</title>
+  
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a href="/"><span class="navbar-brand">JClub Takeaways</span></a>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li><a href="/weeks.html">Past Weeks</a></li>
+<li><a href="/upcomingweeks.html">Upcoming Weeks</a></li>
+<li><a href="/about.html">What is Jclub?</a></li>
+<li><a href="/getinvolved.html">Get Involved</a></li>
+</ul>
+<ul id="navbar-right" class="nav navbar-nav navbar-right">
+</ul>
+
+</div>
+</div> 
+</nav>
+
+<div class="page-header">
+
+</div>
+
+<body>
+    <div class="container">
+      <div class="page-header">
+          
+    <h2 id="header">About JClub 
+    </h2>
+    
+      </div>
+
+      
+
+    <h3>What’s Journal Club?
+    </h3>
+
+    <p>Journal Club, or Jclub as it is lovingly known by its attendees, is a regular informal lecture series founded in Cambridge, Massachusetts. 
+    <br>
+    <p>Our origin story is set in 2011 in a house on Ashton Street. Our original cast of attendees pursued science-related graduate studies in the surrounding Boston area, and over the past decade, the group has expanded to include presenters on topics beyond a natural science focus. During the Covid-19 pandemic, Jclub adapted to a virtual format and at present, offers hybrid events for continued casual learning.
+    <br>
+    <p>Jclub is anchored by presenter-led talks, and sometimes we build upon those talks with accompanying activities to further our learning. First and Third Thursdays are slated for presenter talks, with related activities falling between presenter talks.
+    
+    <h3>How do I get involved?
+    </h3>
+
+    <p>The easiest way to get involved is to attend a talk. Talks are presented on the first and third Thursdays of every month in a hybrid format. People local to Cambridge and Somerville may be able to join for local talks, and all are welcome for all talks online. All information about upcoming talks and how to attend are distributed via a Google group to your email. <a href="https://docs.google.com/forms/d/14IAu8_3NXum8MeAXTM2bwy5987vFUFQgpohBCIjV1LQ/viewform">Sign up for the Jclub mailing list.</a>.
+        <br>
+    <p>Our talks are presented by our attendees and range from… well, everything. In one year–say, 2019–Jclub welcomed talks about:
+    <ul>
+        <li>the politics of the hat
+        <li>owls
+        <li>pi
+        <li>Project Orion
+        <li>1830s utopian sex cults
+        <li>climate refugees
+        <li>sock engineering
+        <li>preventing injury in rock climbing
+        <li>the history of the Sicilan mafia
+        <li>constitutional monarchies
+        <li>the Toledo war
+        <li>rare earth metals 
+    </ul>
+    <p>Intrigued? <a href="/weeks.html">Take a look at past talks to see what’s been shared recently</a>.
+    <br>
+    <p>Interested? <a href="https://docs.google.com/forms/d/e/1FAIpQLSdREc-5QFKXw0WbadPz785LzOr8mJnTQPQkH89DOi-ZMyc7Fw/viewform">We’d love for you to share your topic with us</a> and get you on the schedule. Luke and Ma’ayan will reach out to request a short description of your talk and add you to the calendar! We love first-time and seasoned speakers on most any topic we can think of (or that you can think of).
+
+    <h3>Who is welcome at Jclub?
+    </h3>
+    <p>Anyone who is curious, is always learning, and wishes to be in the company of those who feel the same way. 
+    <br>
+    <p>In-person Jclub attendance is limited by the discretion of the hosts, but the virtual living room of Jclub is always open to all. You’re invited to join us anytime you’re available.
+
+    
+
+    </div> 
+
+
+    
+     <table id="placeholder" style="display: none;"></table>
+      </body>
+<script>
+
+const validHash = new RegExp('^[a-z0-9]+$')
+var jclubsheet = 'https://docs.google.com/spreadsheets/d/1M38X99dQ_rLCaE6mqX9ct2DF-YO6ySAfd3f1_xwerYs/edit#gid=0';
+var jclubtakeaways_id = '1sDSIzlP8AJ_2_ZhDGMc6r8aFWcmU84gphIcr49PYTlE';
+var jclubtakeaways = 'https://docs.google.com/spreadsheets/d/' + jclubtakeaways_id + '/edit#gid=0';
+var NOW = new Date();
+
+var entityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+function escapeHTML (string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
+function get_date_href(date) {
+    return "#" + date.replace(/\//g,"-");
+}
+function parse_date_href(date) {
+    return date.split('#')[1].replace(/-/g,"/");
+}
+
+function get_row_from_date(date, callback) {
+   sheetrock({
+      url: jclubsheet,
+      query: 'select A,B,C',
+      callback: function (error, options, response) {
+        for (i in response.rows) {
+            var row = response.rows[i];
+            var labels = row.labels;
+            var cells = row.cellsArray;
+            var rowobj = {};
+            for (j in labels) {
+                var label = labels[j];
+                var value = cells[j];
+
+                
+                if (label == "Date")  {
+                    if (/^[0-9\/]+$/.test(value)) {
+                        rowobj[label] = value
+                    }
+                } else {
+                    rowobj[label] = escapeHTML(value);
+                }
+            }
+            if (rowobj["Date"] == date) {
+                callback(rowobj)
+                return;
+            }
+        }
+        callback(null);
+      }
+   });
+}
+function format_date(date) {
+    return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() + 1900);
+}
+function get_last_thursday() {
+    var day = NOW.getDay();
+
+    var daysAfterLastThursday;
+    if (day < 4)
+        daysAfterLastThursday = -3 - day;
+    else if (day > 4)
+        daysAfterLastThursday = 4 - day;
+    else 
+        daysAfterLastThursday = 0;
+
+    var currentMs = NOW.getTime();
+    var lastThursday = new Date(currentMs + (daysAfterLastThursday * 24 * 60 * 60 * 1000));
+    return format_date(lastThursday);
+}
+function sameDay(d1, d2) {
+  return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+}
+
+
+function has_occurred(date) {
+    if (sameDay(NOW, date))
+        return true;
+    return NOW > date;
+}
+
+function will_occur(date) {
+    if (sameDay(NOW, date)) 
+        return true;
+    return NOW < date;
+}
+function submit_takeaway(name, thisdate, takeaway, callback) {
+    
+    $.ajax({
+      dataType: 'json',
+      url: "https://jclubtakeaways-api-v2.herokuapp.com/token",
+      success: function( data ) {
+          if (data.error) {
+             alert("ERROR: " + data.error)
+             return
+          }
+          var oauthtoken = data.token;
+          data = {
+              "range" : "Sheet1!A:C",
+              "values" : [[thisdate,name,takeaway]]
+          }
+          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/Sheet1!A:C:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
+          $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(data),
+                success: function(data, res, xhr) { 
+                    var status = xhr.status;
+                    if (status === 200) {
+                        callback(true);
+                    } else {
+                        callback(false, "Non-200 from google API: " + JSON.stringify(data));
+                    }
+                    },
+                error: function(jqXHR, data) {
+                    callback(false, "AJAX call failed: " + JSON.stringify(jqXHR));
+                },
+                contentType: "application/json",
+                dataType: 'json'
+          });
+       }
+    });
+}
+
+function oneweek_from_row(row) {
+    var datestr = row[0];
+    
+    if (! /^[0-9\/]+$/.test(datestr))
+        return null;
+    var date = new Date(datestr);
+    var presenter = escapeHTML(row[1]);
+    var topic = escapeHTML(row[2]);
+    return {presenter:presenter, topic: topic, date:date, datestr: datestr}
+}
+
+$(window).on('load', function() {
+   $.get( "/commit.txt", function( data ) {
+       hash = data.trim();
+       if (validHash.test(hash)) {
+       content = "<li><p class='navbar-text navbar-right'><a href='https://github.com/lukemassa/jclubtakeaways-gui/commit/" + hash + "'>DEVELOPMENT MODE</a></p></li>";
+		$("#navbar-right").html(content);
+       }
+   });
+});
+</script>
+    </html>
+
+
+
+
+

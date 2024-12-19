@@ -1,6 +1,7 @@
 
 # Exclude the built docs/ directory
 docs/*
+docs2/*
 !docs/.exists
 
 .pyenv/*

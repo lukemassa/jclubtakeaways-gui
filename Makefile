@@ -6,6 +6,7 @@ html:
 	@cd src/templates; j2 upcomingweeks.html > $(CURDIR)/docs/upcomingweeks.html
 	@cd src/templates; j2 submit.html > $(CURDIR)/docs/submit.html
 	@cd src/templates; j2 getinvolved.html > $(CURDIR)/docs/getinvolved.html
+	@go run main.go
 
 development:
 	git rev-parse HEAD > $(CURDIR)/docs/commit.txt
