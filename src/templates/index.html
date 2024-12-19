@@ -1,14 +1,14 @@
-{% extends "base.html" %}
+{{ template "base.html" . -}}
 
-{% block head %}
+{{ define "head" }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-{% endblock %}
-{% block pageheader %}
+{{ end -}}
+{{ define "pageheader" }}
     <h3 id="header">
     </h3>
-    {% endblock %}
+    {{ end -}}
 
-{% block pagebody %}
+{{ define "pagebody" }}
     <form id="takeaway">
         <div class="form-group">
             <label for='name'>Name</label>
@@ -30,4 +30,4 @@ $(document).ready(function() {
     window.location.href = "/submit.html#" + last_thursday;
 });
 </script>
-{% endblock %}
+{{ end -}}

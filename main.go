@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	srcDir    = "src/templates2"
-	outputDir = "docs2"
+	srcDir    = "src/templates"
+	outputDir = "docs"
 )
 
 func main() {
@@ -21,22 +21,34 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error creating output directory: %v", err)
 	}
-
-	t, err := template.ParseGlob(srcDir + "/*")
+	entries, err := os.ReadDir(srcDir)
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, tmplName := range t.Templates() {
-		if tmplName.Name() != "about.html" {
+	for _, entry := range entries {
+		if entry.IsDir() {
 			continue
 		}
-		// Print the name of the template
-		if !strings.HasSuffix(tmplName.Name(), ".html") {
+		if entry.Name() == "base.html" {
 			continue
 		}
-		err = renderTemplate(tmplName)
+
+		t, err := template.ParseFiles(filepath.Join(srcDir, "base.html"), filepath.Join(srcDir, entry.Name()))
 		if err != nil {
 			log.Fatal(err)
+		}
+		for _, tmplName := range t.Templates() {
+			if tmplName.Name() != entry.Name() {
+				continue
+			}
+			// Print the name of the template
+			if !strings.HasSuffix(tmplName.Name(), ".html") {
+				continue
+			}
+			err = renderTemplate(tmplName)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 }
@@ -54,6 +66,5 @@ func renderTemplate(tmpl *template.Template) error {
 		return fmt.Errorf("error rendering template: %v", err)
 	}
 
-	fmt.Printf("Rendered template: %s\n", tmpl.Name())
 	return nil
 }

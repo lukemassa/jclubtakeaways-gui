@@ -10,7 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
 
 <title>JClub Takeaways</title>
-{% block head %}{% endblock %}
+{{ block "head" .}}{{ end }}
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -45,12 +45,12 @@
 <body>
     <div class="container">
       <div class="page-header">
-{% block pageheader %}
-{% endblock %}
+{{ block "pageheader" .}}
+{{ end }}
       </div>
-{% block pagebody %}{% endblock %}
+{{ block "pagebody" .}}{{ end }}
     </div>
-{% block pagefooter %}{% endblock %}
+{{ block "pagefooter" .}}{{ end }}
      <table id="placeholder" style="display: none;"></table>
       </body>
 <script>

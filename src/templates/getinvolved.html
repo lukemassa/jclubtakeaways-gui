@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{{ template "base.html" . -}}
 
 
-{% block pagebody %}
+{{ define "pagebody" }}
 
 <div>
 
@@ -110,4 +110,4 @@ $(window).on('load', function() {
 
 </script>
 
-{% endblock %}
+{{ end -}}
