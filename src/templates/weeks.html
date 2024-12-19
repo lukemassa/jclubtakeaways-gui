@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{{ template "base.html" . -}}
 
-{% block pageheader %}
+{{ define "pageheader" }}
     <h3 id="header">Previous Weeks
     </h3>
-    {% endblock %}
+    {{ end -}}
 
-{% block pagebody %}
+{{ define "pagebody" }}
 <table id="weeks" class="table table-condensed table-striped">
     <thead>
         <th>Date</th>
@@ -35,4 +35,4 @@ $(document).ready(function() {
     });
 });
 </script>
-{% endblock %}
+{{ end -}}
