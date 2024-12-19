@@ -9,21 +9,21 @@ import (
 	"strings"
 )
 
-const (
-	srcDir    = "src/templates"
-	outputDir = "docs"
-)
+type Templater struct {
+	srcDir string
+}
 
-func main() {
-	// Define the source directory for templates and the output directory for rendered files
-	// Ensure the output directory exists
-	err := os.MkdirAll(outputDir, os.ModePerm)
-	if err != nil {
-		log.Fatalf("Error creating output directory: %v", err)
+func NewTemplater(srcDir string) Templater {
+	return Templater{
+		srcDir: srcDir,
 	}
-	entries, err := os.ReadDir(srcDir)
+}
+
+func (t Templater) getAllTemplates() ([]*template.Template, error) {
+	ret := make([]*template.Template, 0)
+	entries, err := os.ReadDir(t.srcDir)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	for _, entry := range entries {
 		if entry.IsDir() {
@@ -33,9 +33,9 @@ func main() {
 			continue
 		}
 
-		t, err := template.ParseFiles(filepath.Join(srcDir, "base.html"), filepath.Join(srcDir, entry.Name()))
+		t, err := template.ParseFiles(filepath.Join(t.srcDir, "base.html"), filepath.Join(t.srcDir, entry.Name()))
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
 		for _, tmplName := range t.Templates() {
 			if tmplName.Name() != entry.Name() {
@@ -45,26 +45,45 @@ func main() {
 			if !strings.HasSuffix(tmplName.Name(), ".html") {
 				continue
 			}
-			err = renderTemplate(tmplName)
-			if err != nil {
-				log.Fatal(err)
-			}
+			ret = append(ret, tmplName)
 		}
 	}
+	return ret, nil
 }
-func renderTemplate(tmpl *template.Template) error {
-	// Create an output file for each template
-	outputFile, err := os.Create(filepath.Join(outputDir, tmpl.Name()))
-	if err != nil {
-		return fmt.Errorf("error creating output file: %v", err)
-	}
-	defer outputFile.Close()
 
-	// Render the template (without any data, or you can pass data as needed)
-	err = tmpl.Execute(outputFile, nil)
+func (t Templater) Write(dir string) error {
+	err := os.MkdirAll(dir, 0755)
 	if err != nil {
-		return fmt.Errorf("error rendering template: %v", err)
+		return err
+	}
+
+	allTemplates, err := t.getAllTemplates()
+	if err != nil {
+		return err
+	}
+	for _, tmpl := range allTemplates {
+		outputFile, err := os.Create(filepath.Join(dir, tmpl.Name()))
+
+		if err != nil {
+			return fmt.Errorf("error creating output file: %v", err)
+		}
+		defer outputFile.Close()
+
+		// Render the template (without any data, or you can pass data as needed)
+		err = tmpl.Execute(outputFile, nil)
+		if err != nil {
+			return fmt.Errorf("error rendering template: %v", err)
+		}
 	}
 
 	return nil
+}
+
+func main() {
+
+	t := NewTemplater("src/templates")
+	err := t.Write("docs")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
