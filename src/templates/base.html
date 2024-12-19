@@ -8,11 +8,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
-<!--<link rel="stylesheet" href="///Users/luke/jclubtakeaways/docs/css/css.js"></script>-->
 
 <title>JClub Takeaways</title>
-    {% block head %}{% endblock %}
-
+{{ block "head" .}}{{ end }}
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,26 +34,23 @@
 <ul id="navbar-right" class="nav navbar-nav navbar-right">
 </ul>
 
-</div><!--/.nav-collapse -->
-</div> <!-- container -->
+</div>
+</div>
 </nav>
 
 <div class="page-header">
 
-</div><!-- page-header -->
+</div>
 
 <body>
     <div class="container">
       <div class="page-header">
-     {% block pageheader %}
-     {% endblock %}
-      </div><!-- page-header -->
-
-     {% block pagebody %}{% endblock %}
-    </div> <!-- container -->
-
-
-     {% block pagefooter %}{% endblock %}
+{{ block "pageheader" .}}
+{{ end }}
+      </div>
+{{ block "pagebody" .}}{{ end }}
+    </div>
+{{ block "pagefooter" .}}{{ end }}
      <table id="placeholder" style="display: none;"></table>
       </body>
 <script>
@@ -104,7 +99,6 @@ function get_row_from_date(date, callback) {
                 var label = labels[j];
                 var value = cells[j];
 
-                //I don't want to escape the "/", so I am looking at this one explicitly
                 if (label == "Date")  {
                     if (/^[0-9\/]+$/.test(value)) {
                         rowobj[label] = value
@@ -198,7 +192,6 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
 
 function oneweek_from_row(row) {
     var datestr = row[0];
-    //I don't want to escape the "/", so I am looking at this one explicitly
     if (! /^[0-9\/]+$/.test(datestr))
         return null;
     var date = new Date(datestr);

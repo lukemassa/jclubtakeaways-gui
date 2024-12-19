@@ -1,12 +1,9 @@
-{% extends "base.html" %}
-
-{% block pageheader %}
+{{ template "base.html" . -}}
+{{ define "pageheader" }}
     <h2 id="header">About JClub 
     </h2>
-    {% endblock %}
-
-{% block pagebody %}
-
+{{ end -}}
+{{ define "pagebody" }}
     <h3>What’s Journal Club?
     </h3>
 
@@ -45,6 +42,4 @@
     <p>Anyone who is curious, is always learning, and wishes to be in the company of those who feel the same way. 
     <br>
     <p>In-person Jclub attendance is limited by the discretion of the hosts, but the virtual living room of Jclub is always open to all. You’re invited to join us anytime you’re available.
-
-    
-{% endblock %}
+{{ end -}}
