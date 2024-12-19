@@ -30,10 +30,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: BSFishy/pip-action@v1
+      - uses: actions/setup-go@v5
         with:
-          packages: |
-            j2cli
+          go-version-file: 'go.mod'
       - run: make
       - name: Setup Pages
         uses: actions/configure-pages@v2
