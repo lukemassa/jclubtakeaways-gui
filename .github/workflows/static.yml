@@ -35,7 +35,7 @@ jobs:
           go-version-file: 'go.mod'
       - run: make
       - run: make development
-        if: GITHUB_REPOSITORY == "lukemassa/jclubtakeaways-gui-dev"
+        if: env.GITHUB_REPOSITORY == "lukemassa/jclubtakeaways-gui-dev"
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
