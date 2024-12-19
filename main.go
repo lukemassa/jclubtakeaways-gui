@@ -16,15 +16,13 @@ const (
 
 func main() {
 	// Define the source directory for templates and the output directory for rendered files
-	outputDir := "docs2"
-
 	// Ensure the output directory exists
 	err := os.MkdirAll(outputDir, os.ModePerm)
 	if err != nil {
 		log.Fatalf("Error creating output directory: %v", err)
 	}
 
-	t, err := template.ParseGlob(outputDir + "/*")
+	t, err := template.ParseGlob(srcDir + "/*")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +42,7 @@ func main() {
 }
 func renderTemplate(tmpl *template.Template) error {
 	// Create an output file for each template
-	outputFile, err := os.Create(filepath.Join(srcDir, tmpl.Name()))
+	outputFile, err := os.Create(filepath.Join(outputDir, tmpl.Name()))
 	if err != nil {
 		return fmt.Errorf("error creating output file: %v", err)
 	}

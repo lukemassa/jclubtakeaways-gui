@@ -10,8 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
 
 <title>JClub Takeaways</title>
-  {{ block "head" .}}{{ end }}
-
+{{ block "head" .}}{{ end }}
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,26 +34,23 @@
 <ul id="navbar-right" class="nav navbar-nav navbar-right">
 </ul>
 
-</div><!--/.nav-collapse -->
-</div> <!-- container -->
+</div>
+</div>
 </nav>
 
 <div class="page-header">
 
-</div><!-- page-header -->
+</div>
 
 <body>
     <div class="container">
       <div class="page-header">
-          {{ block "pageheader" .}}
-          {{ end }}
-      </div><!-- page-header -->
-
-      {{ block "pagebody" .}}{{ end }}
-    </div> <!-- container -->
-
-
-    {{ block "pagefooter" .}}{{ end }}
+{{ block "pageheader" .}}
+{{ end }}
+      </div>
+{{ block "pagebody" .}}{{ end }}
+    </div>
+{{ block "pagefooter" .}}{{ end }}
      <table id="placeholder" style="display: none;"></table>
       </body>
 <script>
@@ -103,7 +99,6 @@ function get_row_from_date(date, callback) {
                 var label = labels[j];
                 var value = cells[j];
 
-                //I don't want to escape the "/", so I am looking at this one explicitly
                 if (label == "Date")  {
                     if (/^[0-9\/]+$/.test(value)) {
                         rowobj[label] = value
@@ -197,7 +192,6 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
 
 function oneweek_from_row(row) {
     var datestr = row[0];
-    //I don't want to escape the "/", so I am looking at this one explicitly
     if (! /^[0-9\/]+$/.test(datestr))
         return null;
     var date = new Date(datestr);
