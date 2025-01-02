@@ -208,7 +208,6 @@ function append_entry(range, values, callback) {
               "range" : range,
               "values" : [values]
           }
-          console.log(values)
           url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/" + range + ":append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
           $.ajax({
                 type: 'POST',
