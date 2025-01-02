@@ -28,6 +28,7 @@
 <ul class="nav navbar-nav">
 <li><a href="/weeks.html">Past Weeks</a></li>
 <li><a href="/upcomingweeks.html">Upcoming Weeks</a></li>
+<li><a href="/questions.html">Questions</a></li>
 <li><a href="/about.html">What is Jclub?</a></li>
 <li><a href="/getinvolved.html">Get Involved</a></li>
 </ul>
@@ -59,6 +60,7 @@ const validHash = new RegExp('^[a-z0-9]+$')
 var jclubsheet = 'https://docs.google.com/spreadsheets/d/1M38X99dQ_rLCaE6mqX9ct2DF-YO6ySAfd3f1_xwerYs/edit#gid=0';
 var jclubtakeaways_id = '1sDSIzlP8AJ_2_ZhDGMc6r8aFWcmU84gphIcr49PYTlE';
 var jclubtakeaways = 'https://docs.google.com/spreadsheets/d/' + jclubtakeaways_id + '/edit#gid=0';
+var topicsSheet = 'https://docs.google.com/spreadsheets/d/' + jclubtakeaways_id + '/edit#gid=1662207803';
 var NOW = new Date();
 
 var entityMap = {
@@ -116,6 +118,23 @@ function get_row_from_date(date, callback) {
       }
    });
 }
+
+function get_topics(callback) {
+    sheetrock({
+      url: topicsSheet,
+      query: 'select A',
+      callback: function (error, options, response) {
+        for (i in response.rows) {
+            var row = response.rows[i];
+            var topic = row.cellsArray[0]
+            if (topic == "Topic") {
+                continue
+            }
+            callback(topic)
+        }
+      }
+   });
+}
 function format_date(date) {
     return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() + 1900);
 }
@@ -152,7 +171,29 @@ function will_occur(date) {
         return true;
     return NOW < date;
 }
+
+function finishFunc(url) {
+    return function(success, msg) {
+        if (success)
+            window.location.href = url;
+        else
+            alert("Unexpected error, please contact Luke. Message: " + msg);
+    };
+}
+
 function submit_takeaway(name, thisdate, takeaway, callback) {
+    append_entry("Sheet1!A:C", [thisdate,name,takeaway], callback)
+}
+
+function submit_question(topic, question, url) {
+    append_entry("Questions!A:B", [topic,question], finishFunc(url))
+}
+
+function submit_topic(topic, url) {
+    append_entry("Topics!A:A", [topic], finishFunc(url))
+}
+
+function append_entry(range, values, callback) {
     
     $.ajax({
       dataType: 'json',
@@ -164,10 +205,11 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
           }
           var oauthtoken = data.token;
           data = {
-              "range" : "Sheet1!A:C",
-              "values" : [[thisdate,name,takeaway]]
+              "range" : range,
+              "values" : [values]
           }
-          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/Sheet1!A:C:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
+          console.log(values)
+          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/" + range + ":append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
           $.ajax({
                 type: 'POST',
                 url: url,
