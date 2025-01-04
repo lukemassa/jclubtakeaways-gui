@@ -50,11 +50,8 @@ $(document).ready(function() {
         if (name === "" || takeaway === "")
             alert("Please enter name and a short takeaway");
         else {
-            submit_takeaway(name, thisdate, takeaway, function(success, msg) {
-                if (success)
-                    window.location.href = "/oneweek.html#" + thisdate;
-                else
-                    alert("Unexpected error, please contact Luke. Message: " + msg);
+            submit_takeaway(name, thisdate, takeaway, function() {
+                window.location.href = "/oneweek.html#" + thisdate;
             });
         }
     });

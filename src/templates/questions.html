@@ -1,0 +1,98 @@
+{{ template "base.html" . -}}
+
+{{ define "head" }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+{{ end -}}
+{{ define "pageheader" }}
+    <h3 id="header">Submit your questions for future Jclub topics
+    </h3>
+    <p>
+        Your submitted questions will be sent to a speaker to help shape their talks.<br><br>
+Motivated to give a talk on a topic you see on this list? Reach out to Luke and Ma’ayan to chat!
+    </p>
+    {{ end -}}
+
+{{ define "pagebody" }}
+    <form id="question">
+
+        <div class="form-group existing-topic">
+            <label for="question">Possible Future Topics</label>
+            <select multiple class="form-control" id="inputTopic">
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="inputSuggestNewTopic">
+            <label class="form-check-label" for="question">Suggest a new topic</label>
+          </div>
+
+        <div class="form-group new-topic">
+            <label for='newtopic'>New Topic</label>
+            <input type='text' class="form-control" id="inputNewTopic" placeholder="Enter proposed topic">
+        </div>
+        <div class="form-group">
+            <label for='question'>Question</label>
+            <textarea class="form-control" id="inputQuestion" placeholder="Write a question"></textarea>
+            <small class="form-text text-muted"></small>
+        </div>
+
+    
+          <button id="submitquestion" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+<script>
+
+function toggleTopic(existing) {
+    if (existing) {
+        $("#question .new-topic").hide()
+        $("#question .existing-topic").show()
+    } else {
+        $("#question .new-topic").show()
+        $("#question .existing-topic").hide()
+    }
+}
+
+function isSuggestingNewTopic() {
+    return $("#inputSuggestNewTopic")[0].checked
+}
+
+function getTopic() {
+    if (isSuggestingNewTopic()) {
+        return [$("#inputNewTopic").val(), true]
+    }
+    var inputTopic = $("#inputTopic").val()
+    if (inputTopic === null) {
+        return ["", false]
+    }
+    return [inputTopic[0], false]
+}
+
+$(document).ready(function() {
+    toggleTopic(true)
+    $("#inputTopic").css("resize", "vertical")
+    get_topics(function(topics) {
+        var topicsElement =  $("#inputTopic")
+        for (const topic of topics) {
+            topicsElement.append("<option>" + topic + "</option>")
+        }
+    });
+    $("#question").submit(function(e) {
+        e.preventDefault();
+        const [topic, isNew] = getTopic()
+        const question = $("#inputQuestion").val();
+        if (topic === "" || question === "") {
+            alert("Please enter a topic and question")
+            return
+        }
+        if (isNew) {
+            submit_topic(topic)
+        }
+        submit_question(topic, question)
+    });
+
+    $('#inputSuggestNewTopic').on('change', function(){
+        var selected = isSuggestingNewTopic()
+        toggleTopic(!selected)
+  });
+});
+</script>
+{{ end -}}

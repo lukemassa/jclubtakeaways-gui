@@ -28,6 +28,7 @@
 <ul class="nav navbar-nav">
 <li><a href="/weeks.html">Past Weeks</a></li>
 <li><a href="/upcomingweeks.html">Upcoming Weeks</a></li>
+<li><a href="/questions.html">Questions</a></li>
 <li><a href="/about.html">What is Jclub?</a></li>
 <li><a href="/getinvolved.html">Get Involved</a></li>
 </ul>
@@ -45,6 +46,7 @@
 <body>
     <div class="container">
       <div class="page-header">
+        <div id="alerts"></div>
 {{ block "pageheader" .}}
 {{ end }}
       </div>
@@ -59,6 +61,7 @@ const validHash = new RegExp('^[a-z0-9]+$')
 var jclubsheet = 'https://docs.google.com/spreadsheets/d/1M38X99dQ_rLCaE6mqX9ct2DF-YO6ySAfd3f1_xwerYs/edit#gid=0';
 var jclubtakeaways_id = '1sDSIzlP8AJ_2_ZhDGMc6r8aFWcmU84gphIcr49PYTlE';
 var jclubtakeaways = 'https://docs.google.com/spreadsheets/d/' + jclubtakeaways_id + '/edit#gid=0';
+var topicsSheet = 'https://docs.google.com/spreadsheets/d/' + jclubtakeaways_id + '/edit#gid=1662207803';
 var NOW = new Date();
 
 var entityMap = {
@@ -116,6 +119,26 @@ function get_row_from_date(date, callback) {
       }
    });
 }
+
+function get_topics(callback) {
+    sheetrock({
+      url: topicsSheet,
+      query: 'select A',
+      callback: function (error, options, response) {
+        var topics = []
+        for (i in response.rows) {
+            var row = response.rows[i];
+            var topic = row.cellsArray[0]
+            if (topic == "Topic") {
+                continue
+            }
+            topics.push(topic)
+        }
+        topics.sort()
+        callback(topics)
+      }
+   });
+}
 function format_date(date) {
     return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() + 1900);
 }
@@ -152,22 +175,51 @@ function will_occur(date) {
         return true;
     return NOW < date;
 }
-function submit_takeaway(name, thisdate, takeaway, callback) {
+
+function log_alert(alertType, msg) {
+    if (alertType === "danger") {
+        msg = "An error occurred, please reach out to Luke with this message: " + msg
+    }
+    $("#alerts").append("<div class='alert alert-" + alertType + "' role='alert'>" + msg + "</div>")
+}
+
+function finishFunc(msg) {
+    return function() {
+        log_alert("success", msg)
+    };
+}
+
+function submit_takeaway(name, thisdate, takeaway, success) {
+    append_entry("Sheet1!A:C", [thisdate,name,takeaway], success)
+}
+
+function submit_question(topic, question) {
+    append_entry("Questions!A:B", [topic,question], finishFunc("Submitted question for " + topic))
+}
+
+function submit_topic(topic) {
+    append_entry("Topics!A:A", [topic], finishFunc("Submitted new topic " + topic))
+}
+
+function append_entry(range, values, success) {
     
     $.ajax({
       dataType: 'json',
       url: "https://jclubtakeaways-api-v2.herokuapp.com/token",
+      error: function(data, res, xhr) {
+        log_alert("danger", "Failed to load token")
+      },
       success: function( data ) {
           if (data.error) {
-             alert("ERROR: " + data.error)
+             log_alert("danger", "ERROR: " + data.error)
              return
           }
           var oauthtoken = data.token;
           data = {
-              "range" : "Sheet1!A:C",
-              "values" : [[thisdate,name,takeaway]]
+              "range" : range,
+              "values" : [values]
           }
-          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/Sheet1!A:C:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
+          url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/" + range + ":append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
           $.ajax({
                 type: 'POST',
                 url: url,
@@ -175,13 +227,13 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
                 success: function(data, res, xhr) { 
                     var status = xhr.status;
                     if (status === 200) {
-                        callback(true);
+                        success();
                     } else {
-                        callback(false, "Non-200 from google API: " + JSON.stringify(data));
+                        log_alert("danger", "Non-200 from google API: " + JSON.stringify(data));
                     }
-                    },
+                },
                 error: function(jqXHR, data) {
-                    callback(false, "AJAX call failed: " + JSON.stringify(jqXHR));
+                    log_alert("danger", "AJAX call failed: " + JSON.stringify(jqXHR));
                 },
                 contentType: "application/json",
                 dataType: 'json'
@@ -204,7 +256,7 @@ $(window).on('load', function() {
    $.get( "/commit.txt", function( data ) {
        hash = data.trim();
        if (validHash.test(hash)) {
-       content = "<li><p class='navbar-text navbar-right'><a href='https://github.com/lukemassa/jclubtakeaways-gui/commit/" + hash + "'>DEVELOPMENT MODE</a></p></li>";
+       content = "<li><p class='navbar-text navbar-right'><a href='https://github.com/lukemassa/jclubtakeaways-gui-dev/commit/" + hash + "'>DEVELOPMENT MODE</a></p></li>";
 		$("#navbar-right").html(content);
        }
    });
