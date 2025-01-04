@@ -173,17 +173,21 @@ function will_occur(date) {
     return NOW < date;
 }
 
+function log_alert(alertType, msg) {
+    if (alertType === "danger") {
+        msg = "An error occurred, please reach out to Luke with this message: " + msg
+    }
+    $("#alerts").append("<div class='alert alert-" + alertType + "' role='alert'>" + msg + "</div>")
+}
+
 function finishFunc(msg) {
-    return function(success, error) {
-        if (success)
-            $("#alerts").append("<div class='alert alert-success' role='alert'>" + msg + "</div>")
-        else
-            alert("Unexpected error, please contact Luke. Message: " + error);
+    return function() {
+        log_alert("success", msg)
     };
 }
 
-function submit_takeaway(name, thisdate, takeaway, callback) {
-    append_entry("Sheet1!A:C", [thisdate,name,takeaway], callback)
+function submit_takeaway(name, thisdate, takeaway, success) {
+    append_entry("Sheet1!A:C", [thisdate,name,takeaway], success)
 }
 
 function submit_question(topic, question) {
@@ -194,14 +198,17 @@ function submit_topic(topic) {
     append_entry("Topics!A:A", [topic], finishFunc("Submitted new topic " + topic))
 }
 
-function append_entry(range, values, callback) {
+function append_entry(range, values, success) {
     
     $.ajax({
       dataType: 'json',
       url: "https://jclubtakeaways-api-v2.herokuapp.com/token",
+      error: function(data, res, xhr) {
+        log_alert("danger", "Failed to load token")
+      },
       success: function( data ) {
           if (data.error) {
-             alert("ERROR: " + data.error)
+             log_alert("danger", "ERROR: " + data.error)
              return
           }
           var oauthtoken = data.token;
@@ -209,7 +216,6 @@ function append_entry(range, values, callback) {
               "range" : range,
               "values" : [values]
           }
-          console.log(values)
           url = "https://sheets.googleapis.com/v4/spreadsheets/" + jclubtakeaways_id + "/values/" + range + ":append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS&access_token=" + oauthtoken;
           $.ajax({
                 type: 'POST',
@@ -218,13 +224,13 @@ function append_entry(range, values, callback) {
                 success: function(data, res, xhr) { 
                     var status = xhr.status;
                     if (status === 200) {
-                        callback(true);
+                        success();
                     } else {
-                        callback(false, "Non-200 from google API: " + JSON.stringify(data));
+                        log_alert("danger", "Non-200 from google API: " + JSON.stringify(data));
                     }
-                    },
+                },
                 error: function(jqXHR, data) {
-                    callback(false, "AJAX call failed: " + JSON.stringify(jqXHR));
+                    log_alert("danger", "AJAX call failed: " + JSON.stringify(jqXHR));
                 },
                 contentType: "application/json",
                 dataType: 'json'
