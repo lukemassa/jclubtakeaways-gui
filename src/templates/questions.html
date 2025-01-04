@@ -69,8 +69,11 @@ function getTopic() {
 $(document).ready(function() {
     toggleTopic(true)
 
-    get_topics(function(topic) {
-        $("#inputTopic").prepend("<option>" + topic + "</option>")
+    get_topics(function(topics) {
+        var topicsElement =  $("#inputTopic")
+        for (const topic of topics) {
+            topicsElement.append("<option>" + topic + "</option>")
+        }
     });
     $("#question").submit(function(e) {
         e.preventDefault();

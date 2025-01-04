@@ -125,14 +125,17 @@ function get_topics(callback) {
       url: topicsSheet,
       query: 'select A',
       callback: function (error, options, response) {
+        var topics = []
         for (i in response.rows) {
             var row = response.rows[i];
             var topic = row.cellsArray[0]
             if (topic == "Topic") {
                 continue
             }
-            callback(topic)
+            topics.push(topic)
         }
+        topics.sort()
+        callback(topics)
       }
    });
 }
