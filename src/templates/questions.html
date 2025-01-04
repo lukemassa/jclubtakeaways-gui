@@ -4,68 +4,91 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 {{ end -}}
 {{ define "pageheader" }}
-    <h3 id="header">Submit a question about a possible future topic
+    <h3 id="header">Submit your questions for future Jclub topics
     </h3>
+    <p>
+        Your submitted questions will be sent to a speaker to help shape their talks.<br><br>
+Motivated to give a talk on a topic you see on this list or a new topic? Reach out to Luke and Ma’ayan to chat!
+    </p>
     {{ end -}}
 
 {{ define "pagebody" }}
     <form id="question">
-        <div class="form-group">
-            <label for="topic">Possible Future Topics</label>
-            <select multiple class="form-control" id="inputTopic">
-              <option>NEW TOPIC</option>
-            </select>
-          </div>
+
         <div class="form-group existing-topic">
-            <label for='question'>Question</label>
-            <textarea class="form-control" id="inputQuestion" placeholder="Question"></textarea>
-            <small class="form-text text-muted">Write a question</small>
+            <label for="question">Possible Future Topics</label>
+            <select multiple class="form-control" id="inputTopic">
+            </select>
         </div>
+        <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="inputSuggestNewTopic">
+            <label class="form-check-label" for="question">Suggest a new topic</label>
+          </div>
+
         <div class="form-group new-topic">
             <label for='newtopic'>New Topic</label>
             <input type='text' class="form-control" id="inputNewTopic" placeholder="Enter proposed topic">
         </div>
+        <div class="form-group">
+            <label for='question'>Question</label>
+            <textarea class="form-control" id="inputQuestion" placeholder="Question"></textarea>
+            <small class="form-text text-muted">Write a question</small>
+        </div>
+
     
           <button id="submitquestion" type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 <script>
-var thisdate = window.location.hash.split('#')[1];
 
+function toggleTopic(existing) {
+    if (existing) {
+        $("#question .new-topic").hide()
+        $("#question .existing-topic").show()
+    } else {
+        $("#question .new-topic").show()
+        $("#question .existing-topic").hide()
+    }
+}
+
+function isSuggestingNewTopic() {
+    return $("#inputSuggestNewTopic")[0].checked
+}
+
+function getTopic() {
+    if (isSuggestingNewTopic()) {
+        return [$("#inputNewTopic").val(), true]
+    }
+    var inputTopic = $("#inputTopic").val()
+    if (inputTopic === null) {
+        return ["", false]
+    }
+    return [inputTopic[0], false]
+}
 
 $(document).ready(function() {
-    $("#question .existing-topic").show()
-    $("#question .new-topic").hide()
+    toggleTopic(true)
 
     get_topics(function(topic) {
         $("#inputTopic").prepend("<option>" + topic + "</option>")
     });
     $("#question").submit(function(e) {
         e.preventDefault();
-        var topic = $("#inputTopic").val()[0];
-        var question = $("#inputQuestion").val();
-        var newTopic = $("#inputNewTopic").val()
-        if (topic === "NEW TOPIC") {
-            if (newTopic === "") 
-                alert("Please enter a new topic")
-            else
-                submit_topic(newTopic, "/questions.html")
-        } else {
-            if (topic === "" || question === "")
-                alert("Please enter a topic and question")
-            else
-                submit_question(topic, question, "/questions.html")
+        const [topic, isNew] = getTopic()
+        const question = $("#inputQuestion").val();
+        if (topic === "" || question === "") {
+            alert("Please enter a topic and question")
+            return
         }
+        if (isNew) {
+            submit_topic(topic)
+        }
+        submit_question(topic, question)
     });
-    $('#inputTopic').on('change', function(){
-        var topic = $("#inputTopic").val()[0];
-        if (topic === "NEW TOPIC") {
-            $("#question .existing-topic").hide()
-            $("#question .new-topic").show()
-        } else {
-            $("#question .existing-topic").show()
-            $("#question .new-topic").hide()
-        }
+
+    $('#inputSuggestNewTopic').on('change', function(){
+        var selected = isSuggestingNewTopic()
+        toggleTopic(!selected)
   });
 });
 </script>

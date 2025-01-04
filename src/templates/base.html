@@ -46,6 +46,7 @@
 <body>
     <div class="container">
       <div class="page-header">
+        <div id="alerts"></div>
 {{ block "pageheader" .}}
 {{ end }}
       </div>
@@ -172,12 +173,12 @@ function will_occur(date) {
     return NOW < date;
 }
 
-function finishFunc(url) {
-    return function(success, msg) {
+function finishFunc(msg) {
+    return function(success, error) {
         if (success)
-            window.location.href = url;
+            $("#alerts").append("<div class='alert alert-success' role='alert'>" + msg + "</div>")
         else
-            alert("Unexpected error, please contact Luke. Message: " + msg);
+            alert("Unexpected error, please contact Luke. Message: " + error);
     };
 }
 
@@ -185,12 +186,12 @@ function submit_takeaway(name, thisdate, takeaway, callback) {
     append_entry("Sheet1!A:C", [thisdate,name,takeaway], callback)
 }
 
-function submit_question(topic, question, url) {
-    append_entry("Questions!A:B", [topic,question], finishFunc(url))
+function submit_question(topic, question) {
+    append_entry("Questions!A:B", [topic,question], finishFunc("Submitted question for " + topic))
 }
 
-function submit_topic(topic, url) {
-    append_entry("Topics!A:A", [topic], finishFunc(url))
+function submit_topic(topic) {
+    append_entry("Topics!A:A", [topic], finishFunc("Submitted new topic " + topic))
 }
 
 function append_entry(range, values, callback) {
