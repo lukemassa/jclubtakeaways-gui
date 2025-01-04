@@ -68,7 +68,7 @@ function getTopic() {
 
 $(document).ready(function() {
     toggleTopic(true)
-
+    $("#inputTopic").css("resize", "vertical")
     get_topics(function(topics) {
         var topicsElement =  $("#inputTopic")
         for (const topic of topics) {
