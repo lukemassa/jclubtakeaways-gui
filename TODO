@@ -1,2 +1,1 @@
-- replace master with main
-- Move preview app to github or production app to aws
+- Merge GUI and api into one app deployed from heroku
