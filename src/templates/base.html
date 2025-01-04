@@ -247,7 +247,7 @@ $(window).on('load', function() {
    $.get( "/commit.txt", function( data ) {
        hash = data.trim();
        if (validHash.test(hash)) {
-       content = "<li><p class='navbar-text navbar-right'><a href='https://github.com/lukemassa/jclubtakeaways-gui/commit/" + hash + "'>DEVELOPMENT MODE</a></p></li>";
+       content = "<li><p class='navbar-text navbar-right'><a href='https://github.com/lukemassa/jclubtakeaways-gui-dev/commit/" + hash + "'>DEVELOPMENT MODE</a></p></li>";
 		$("#navbar-right").html(content);
        }
    });
